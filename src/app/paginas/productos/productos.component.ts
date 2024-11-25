@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ProductosService } from '../../servicios/productos.service';
 
 @Component({
   selector: 'app-productos',
@@ -7,6 +8,21 @@ import { Component } from '@angular/core';
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.scss'
 })
-export class ProductosComponent {
-
+export class ProductosComponent implements OnInit, OnDestroy {
+  productos : any;
+  constructor(private productosService: ProductosService){
+  }
+  obtenerProductos(){
+    this.productosService.obtenerProductos().subscribe(
+      data => this.productos = data,
+      error => console.log(error),
+      () => console.log('FIN')
+    )
+  }
+  ngOnInit(): void {
+    this.obtenerProductos()
+  }
+  ngOnDestroy(): void {
+    
+  }
 }
